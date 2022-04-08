@@ -1,22 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import { useState } from "react";
 
 function App() {
+  const [data, setData] = useState();
+
+  const myClick = async () => {
+    try {
+      let response = await fetch("/slow");
+      let vals = await response.json();
+      return setData(vals.currentTime);
+    } catch (ex) {
+      console.log(ex);
+    }
+  };
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <button onClick={myClick}>Click Me</button>
+        <p>{data || "no value yet"}</p>
       </header>
     </div>
   );
